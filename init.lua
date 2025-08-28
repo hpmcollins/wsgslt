@@ -13,10 +13,12 @@ vim.keymap.set('v', '<C-c>', '"+y', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-v>', '"+p', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true, silent = true })
 
+vim.opt.number = true
+
 -- Prepend lazy.nvim to the runtime path
 vim.opt.rtp:prepend(vim.fn.stdpath("config") .. "/lazy/lazy.nvim")
 
-vim.cmd.colorscheme("codedark")
+vim.cmd.colorscheme("sonokai")
 
 require("lazy").setup({
   -- File explorer
@@ -39,6 +41,11 @@ require("lazy").setup({
         }
       })
     end
+  },
+
+  {
+	'nvim-lualine/lualine.nvim',
+	requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   },
 
 
@@ -111,3 +118,58 @@ require("lazy").setup({
   },
 
 })
+
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'auto',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    always_show_tabline = true,
+    globalstatus = false,
+    refresh = {
+      statusline = 1000,
+      tabline = 1000,
+      winbar = 1000,
+      refresh_time = 16, -- ~60fps
+      events = {
+        'WinEnter',
+        'BufEnter',
+        'BufWritePost',
+        'SessionLoadPost',
+        'FileChangedShellPost',
+        'VimResized',
+        'Filetype',
+        'CursorMoved',
+        'CursorMovedI',
+        'ModeChanged',
+      },
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
